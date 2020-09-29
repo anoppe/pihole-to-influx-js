@@ -1,0 +1,22 @@
+{
+  "name": "pihole-influx.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "piHoleToInflux.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "clean": "rm -R dist",
+    "build": "npm run clean && npm run tsc",
+    "start": "npm run build && node dist/piHoleToInflux.js"
+  },
+  "keywords": [],
+  "author": "Auke Noppe <auke@noppe.nl> (https://github.com/anoppe)",
+  "license": "ISC",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.6.0",
+    "@types/node": "^14.11.2",
+    "axios": "^0.20.0",
+    "typescript": "^4.0.3"
+  }
+}
