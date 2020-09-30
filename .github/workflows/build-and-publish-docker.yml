@@ -1,0 +1,25 @@
+name: Docker Builds
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build node application
+      run: |
+        npm ci
+        npm run build
+    - name: Build and push Docker images
+      run: |
+        docker build . -t anoppe/pihole-to-influx-js
+        
+      
