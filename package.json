@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "clean": "rm -R dist",
+    "clean": "rm -Rf dist",
     "build": "npm run clean && npm run tsc",
     "start": "npm run build && node dist/piHoleToInflux.js"
   },
