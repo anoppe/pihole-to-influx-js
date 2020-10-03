@@ -17,4 +17,4 @@ jobs:
           version: latest
       - name: Build multi platform
         run: |
-          docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 -t anoppe/pihole-to-influx-js .
+          docker buildx build --push --platform linux/amd64,linux/arm64 -t anoppe/pihole-to-influx-js .
