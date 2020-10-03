@@ -1,31 +1,24 @@
 name: Docker Builds
-
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: docker login
-      run: |
-        echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Build node application
       run: |
         npm ci
         npm run build
+    - name: Docker login
+      run: |
+        echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Build and push Docker images
       run: |
-        docker build . -t anoppe/pihole-to-influx-js:${{ github.run_id }}
+        docker build . -t anoppe/pihole-to-influx-js
     - name: Docker push
       run: |
-        docker push anoppe/pihole-to-influx-js:${{ github.run_id }}
+        docker push anoppe/pihole-to-influx-js
         
       
