@@ -125,10 +125,6 @@ process.on("SIGTERM", signal => {
     console.log('SIGTERM received');
     piHoleToInflux.stop(signal);
 });
-process.on("SIGKILL", signal => {
-    console.log('SIGKILL received');
-    piHoleToInflux.stop(signal);
-});
 process.on("SIGINT", signal => {
     console.log('SIGINT received');
     piHoleToInflux.stop(signal);
