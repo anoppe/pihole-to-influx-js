@@ -23,3 +23,4 @@ Available variables to configure the container:
 * `INFLUX_BUCKET` - The InfluxDB bucket to write the Pi-hole statistics to. Defaults to `pihole`. When connecting to InfluxDB 1.8.x, the value of this variable is `<databasename>/<retentionpolicy>`
 * `INFLUX_MEASUREMENT_NAME` - The name of the InfluxDB measurement. Defaults to `pihole`.
 * `PIHOLE_URL` - The url of the pi hole api. e.g. `http://localhost:8080/admin/api.php`
+* `SCRAPE_INTERVAL` - The interval, in ms, of new data from Pihole is requested
