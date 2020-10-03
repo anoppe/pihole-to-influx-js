@@ -23,6 +23,9 @@ jobs:
         npm run build
     - name: Build and push Docker images
       run: |
-        docker build . -t anoppe/pihole-to-influx-js
+        docker build . -t anoppe/pihole-to-influx-js:$GITHUB_RUN_ID
+    - name: Docker push
+      run: |
+        docker push anoppe/pihole-to-influx-js:$GITHUB_RUN_ID
         
       
