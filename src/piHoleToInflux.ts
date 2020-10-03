@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import Axios from "axios";
-import {PiHoleApiModel} from "./piHoleApiModel";
-import {InfluxDB, Point, HttpError} from "@influxdata/influxdb-client"
+import {InfluxDB, Point} from "@influxdata/influxdb-client"
 import {WriteApi, WritePrecision} from "@influxdata/influxdb-client/dist";
 
 const INFLUX_URL = process.env.INFLUX_URL || "http://localhost:8086";
@@ -53,6 +52,7 @@ export class PiHoleToInflux {
         console.log(`Stop signal received: ${signal}`);
         if (this.interval) {
             clearInterval(this.interval);
+            this.influxClient.close()
             process.exit(0);
         }
     }
@@ -105,10 +105,6 @@ export class PiHoleToInflux {
             isInvalid = true;
             console.error(`Required InfluxDB token missing. Current value: INFLUX_TOKEN=${process.env.INFLUX_TOKEN}.`);
         }
-        if (!process.env.INFLUX_ORG) {
-            isInvalid = true;
-            console.error(`Influx organisation missing. Current value INFLUX_ORG=${process.env.INFLUX_ORG}`);
-        }
         if (!process.env.PIHOLE_URL) {
             isInvalid = true;
             console.error(`Pihole url missing. PIHOLE_URL=${process.env.PIHOLE_URL}`);
@@ -118,6 +114,38 @@ export class PiHoleToInflux {
             process.exit(1);
         }
     }
+}
+
+export interface PiHoleApiModel {
+    domains_being_blocked: number;
+    dns_queries_today:     number;
+    ads_blocked_today:     number;
+    ads_percentage_today:  number;
+    unique_domains:        number;
+    queries_forwarded:     number;
+    queries_cached:        number;
+    clients_ever_seen:     number;
+    unique_clients:        number;
+    dns_queries_all_types: number;
+    reply_NODATA:          number;
+    reply_NXDOMAIN:        number;
+    reply_CNAME:           number;
+    reply_IP:              number;
+    privacy_level:         number;
+    status:                string;
+    gravity_last_updated:  GravityLastUpdated;
+}
+
+export interface GravityLastUpdated {
+    file_exists: boolean;
+    absolute:    number;
+    relative:    Relative;
+}
+
+export interface Relative {
+    days:    string;
+    hours:   string;
+    minutes: string;
 }
 
 let piHoleToInflux = new PiHoleToInflux();
@@ -130,4 +158,5 @@ process.on("SIGINT", signal => {
     piHoleToInflux.stop(signal);
 });
 piHoleToInflux.start();
+
 
